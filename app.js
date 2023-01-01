@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-// const Router = require("./routes");
+const Router = require("./routes");
 const errorHandlerMiddleware = require("./middlewares/error_handler_middleware");
 
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(
 );
 
 app.options("*", cors());
-// app.use("/api", Router);
+app.use("/api", Router);
 app.use(errorHandlerMiddleware);
 
 app.engine('html', require('ejs').renderFile);

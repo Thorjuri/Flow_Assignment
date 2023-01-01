@@ -12,59 +12,89 @@
         let newExtensions = "";
         let added = ""
 
-        function report() {
-            let checkBoxes = document.getElementsByName("country");
-            for (let i = 0; i < checkBoxes.length; i++) {
-                if (checkBoxes[i].checked) {
-                    added = checkBoxes[i].value
-                }
+        function report(extension) {
+            let value = $(`input:checkbox[id='${extension}']`).val();
+            let checkBoxes = document.getElementsByName(value);
+            if (checkBoxes[0].checked) {
+                added = value;
+                let extensions = $('#addedExtension').val();
+                newExtensions = extensions + ` ${added}`;
+                $('#addedExtension').val(newExtensions);
+                var param = {};
+                param.board = "업무게시판";
+                param.extension = added;
+                param.valid = true;
+                    let ajax = $.ajax({
+                    url: "/api/files/",
+                    data: param,
+                    type: 'POST',
+                    dataType: "JSON",
+                    success: function (result) {
+                        console.log(result.message);
+                    },
+                    error: function(result){
+                        alert(result.responseJSON.error);
+                    }
+                });
             };
-            const extensions = $('#addedExtension').val()
-            newExtensions = extensions + ` ${added}`
-            $('#addedExtension').val(newExtensions)
         };   
 
         function addCustom(){
             const custom = $('.form-control').val();
-            const extensions = $('#addedExtension').val()
-            newExtensions = extensions + ` ${custom}`
-            $('#addedExtension').val(newExtensions)
+            const extensions = $('#addedExtension').val();
+            newExtensions = extensions + ` ${custom}`;
+            $('#addedExtension').val(newExtensions);
             document.getElementById("custom").value = "";
-        }
-
+            var param = {};
+            param.board = "업무게시판";
+            param.extension = custom;
+            param.valid = true;
+            let ajax = $.ajax({
+                url: "/api/files/",
+                data: param,
+                type: 'POST',
+                dataType: "JSON",
+                success: function (result) {
+                    console.log(result.message);
+                },
+                error: function(result){
+                    alert(result.responseJSON.error);
+                }
+            });
+        };
     </script>
 </head>
 <body>
     <div style="width:500px">
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox1" value="bat">
+            <input class="form-check-input" onclick="report('bat')" name="bat" type="checkbox" id="bat" value="bat">
             <label class="form-check-label" id="bat" for="inlineCheckbox1">bat</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="cmd">
+            <input class="form-check-input" onclick="report('cmd')" name="cmd" type="checkbox" id="cmd" value="cmd">
             <label class="form-check-label" for="inlineCheckbox2">cmd</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="com">
+            <input class="form-check-input" onclick="report('com')" name="com" type="checkbox" id="com" value="com">
             <label class="form-check-label" for="inlineCheckbox2">com</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="cpl">
+            <input class="form-check-input" onclick="report('cpl')" name="cpl" type="checkbox" id="cpl" value="cpl">
             <label class="form-check-label" for="inlineCheckbox2">cpl</label>
         </div>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="exe">
+            <input class="form-check-input" onclick="report('exe')" name="exe" type="checkbox" id="exe" value="exe">
             <label class="form-check-label" for="inlineCheckbox2">exe</label>
         </div>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="src">
+            <input class="form-check-input" onclick="report('src')" name="src" type="checkbox" id="src" value="src">
             <label class="form-check-label" for="inlineCheckbox2">src</label>
         </div>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" onclick="report()" name="country" type="checkbox" id="inlineCheckbox2" value="js">
+            <input class="form-check-input" onclick="report('js')" name="js" type="checkbox" id="js" value="js">
             <label class="form-check-label" for="inlineCheckbox2">js</label>
         </div>
 
