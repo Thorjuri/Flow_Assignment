@@ -9,9 +9,17 @@ class FilesRepository {
         return data;
     };
 
-    addExtensions = async(board, extension, type, vaild)=> {
-        const data = await Files.create({ board, extension, vaild });
+    addExtensions = async(board, extension, valid)=> {
+        const data = await Files.create({ board, extension, valid });
         return data;
+    };
+
+    updateExtensions = async(board, extension)=> {
+        await Files.update({ valid: true }, { where: { board, extension } });
+    };
+
+    deleteExtensions = async(board, extension, valid)=> {
+        await Files.update({ valid }, { where: { board, extension } });
     };
 };
 

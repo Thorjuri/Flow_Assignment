@@ -19,7 +19,6 @@
                 added = value;
                 let extensions = $('#addedExtension').val();
                 newExtensions = extensions + ` ${added}`;
-                $('#addedExtension').val(newExtensions);
                 var param = {};
                 param.board = "업무게시판";
                 param.extension = added;
@@ -30,7 +29,24 @@
                     type: 'POST',
                     dataType: "JSON",
                     success: function (result) {
-                        console.log(result.message);
+                        alert(result.message)
+                        $('#addedExtension').val(newExtensions);
+                        const badgesDiv = document.querySelector('#badges')
+                        const btn = document.createElement('button');
+                        const text = document.createTextNode(`${added}`);
+                        badgesDiv.setAttribute('style', 'height: 70px; padding:2px')
+                        btn.setAttribute('name', `${added}`);
+                        // btn.setAttribute('onclick', 'deleteExtensions');
+                        btn.setAttribute('class', 'btn btn-dark');
+                        btn.setAttribute('style', 'margin-right:5px; height:38px;')
+                        btn.appendChild(text)
+                        badgesDiv.appendChild(btn)
+
+                        const btns = document.querySelectorAll(".btn-dark");
+                        for (let i = 0; i < btns.length; i++) {
+                            btns[i].addEventListener("click", deleteExtensions);
+                        };
+
                     },
                     error: function(result){
                         alert(result.responseJSON.error);
@@ -43,7 +59,6 @@
             const custom = $('.form-control').val();
             const extensions = $('#addedExtension').val();
             newExtensions = extensions + ` ${custom}`;
-            $('#addedExtension').val(newExtensions);
             document.getElementById("custom").value = "";
             var param = {};
             param.board = "업무게시판";
@@ -56,12 +71,49 @@
                 dataType: "JSON",
                 success: function (result) {
                     console.log(result.message);
+                    $('#addedExtension').val(newExtensions);
+                    const badgesDiv = document.querySelector('#badges')
+                    const btn = document.createElement('button');
+                    const text = document.createTextNode(`${custom}`);
+                    badgesDiv.setAttribute('style', 'height: 70px; padding:2px')
+                    btn.setAttribute('name', `${custom}`);
+                    // btn.setAttribute('onclick', 'deleteExtensions');
+                    btn.setAttribute('class', 'btn btn-dark');
+                    btn.setAttribute('style', 'margin-right:5px; height:38px;')
+                    btn.appendChild(text)
+                    badgesDiv.appendChild(btn)
+
+                    const btns = document.querySelectorAll(".btn-dark");
+                    for (let i = 0; i < btns.length; i++) {
+                        btns[i].addEventListener("click", deleteExtensions);
+                    };
                 },
                 error: function(result){
                     alert(result.responseJSON.error);
                 }
             });
         };
+
+        function deleteExtensions(){
+            const extension = $(this).attr('name');
+            var param = {};
+            param.board = "업무게시판";
+            param.extension = extension;
+            param.valid = false;
+            let ajax = $.ajax({
+                url: "/api/files/",
+                data: param,
+                type: 'PATCH',
+                dataType: "JSON",
+                success: function (result) {
+                    alert(result.message);
+                },
+                error: function(result){
+                    alert(result.responseJSON.error);
+                }
+            });
+
+        }
     </script>
 </head>
 <body>
@@ -109,7 +161,7 @@
             <button class="btn btn-outline-secondary" onclick="addCustom()" type="button">+추가</button>
             </div>
         </div>
-
+        <div id="badges"></div>
         <div class="input-group">
             <div class="input-group-prepend">
                 <!-- <span class="input-group-text">With textarea</span> -->
