@@ -12,12 +12,9 @@ class FilesService {
             return { data, message:`확장자 ${extension} 추가 완료`};
         }else if(check.valid === false){
             await this.filesRepository.updateExtensions(board, extension);
-            return { message: `확장자 ${extension} 활성화 완료`}
+            return { message: `확장자 ${extension} 활성화 완료`};
         }else{
-            // this.err.status = 401;
-            // this.err.message = `확장자 ${extension} 는 이미 추가되어 있습니다.`
-            // throw this.err;
-            return { message: `확장자 ${extension} 는 이미 추가되어 있습니다.`}
+            return { message: `확장자 ${extension} 는 이미 추가되어 있습니다.`};
         };
     };
 

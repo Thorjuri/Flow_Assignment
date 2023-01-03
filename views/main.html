@@ -10,7 +10,7 @@
     <title>Flow_assignment</title>
     <script>
         let newExtensions = "";
-        let added = ""
+        let added = "";
 
         function report(extension) {
             let value = $(`input:checkbox[id='${extension}']`).val();
@@ -29,18 +29,17 @@
                     type: 'POST',
                     dataType: "JSON",
                     success: function (result) {
-                        alert(result.message)
+                        alert(result.message);
                         $('#addedExtension').val(newExtensions);
-                        const badgesDiv = document.querySelector('#badges')
+                        const badgesDiv = document.querySelector('#badges');
                         const btn = document.createElement('button');
-                        const text = document.createTextNode(`${added}`);
-                        badgesDiv.setAttribute('style', 'height: 70px; padding:2px')
+                        const text = document.createTextNode(`${added} ❌`);
+                        badgesDiv.setAttribute('style', 'height: 70px; padding:2px');
                         btn.setAttribute('name', `${added}`);
-                        // btn.setAttribute('onclick', 'deleteExtensions');
                         btn.setAttribute('class', 'btn btn-dark');
-                        btn.setAttribute('style', 'margin-right:5px; height:38px;')
-                        btn.appendChild(text)
-                        badgesDiv.appendChild(btn)
+                        btn.setAttribute('style', 'margin-right:5px; height:38px;');
+                        btn.appendChild(text);
+                        badgesDiv.appendChild(btn);
 
                         const btns = document.querySelectorAll(".btn-dark");
                         for (let i = 0; i < btns.length; i++) {
@@ -70,23 +69,22 @@
                 type: 'POST',
                 dataType: "JSON",
                 success: function (result) {
-                    console.log(result.message);
-                    $('#addedExtension').val(newExtensions);
-                    const badgesDiv = document.querySelector('#badges')
-                    const btn = document.createElement('button');
-                    const text = document.createTextNode(`${custom}`);
-                    badgesDiv.setAttribute('style', 'height: 70px; padding:2px')
-                    btn.setAttribute('name', `${custom}`);
-                    // btn.setAttribute('onclick', 'deleteExtensions');
-                    btn.setAttribute('class', 'btn btn-dark');
-                    btn.setAttribute('style', 'margin-right:5px; height:38px;')
-                    btn.appendChild(text)
-                    badgesDiv.appendChild(btn)
+                    alert(result.message);
+                        $('#addedExtension').val(newExtensions);
+                        const badgesDiv = document.querySelector('#badges');
+                        const btn = document.createElement('button');
+                        const text = document.createTextNode(`${custom} ❌`);
+                        badgesDiv.setAttribute('style', 'height: 70px; padding:2px');
+                        btn.setAttribute('name', `${custom}`);
+                        btn.setAttribute('class', 'btn btn-dark');
+                        btn.setAttribute('style', 'margin-right:5px; height:38px;');
+                        btn.appendChild(text);
+                        badgesDiv.appendChild(btn);
 
-                    const btns = document.querySelectorAll(".btn-dark");
-                    for (let i = 0; i < btns.length; i++) {
-                        btns[i].addEventListener("click", deleteExtensions);
-                    };
+                        const btns = document.querySelectorAll(".btn-dark");
+                        for (let i = 0; i < btns.length; i++) {
+                            btns[i].addEventListener("click", deleteExtensions);
+                        };
                 },
                 error: function(result){
                     alert(result.responseJSON.error);
@@ -107,13 +105,20 @@
                 dataType: "JSON",
                 success: function (result) {
                     alert(result.message);
+                    const thisBtn = document.getElementsByName(extension);
+                    console.log(thisBtn);
+                    if(thisBtn[1]){
+                        thisBtn[1].remove();
+                        thisBtn[0].checked = false ;
+                    }else{
+                        thisBtn[0].remove(); 
+                    };
                 },
                 error: function(result){
                     alert(result.responseJSON.error);
                 }
             });
-
-        }
+        };
     </script>
 </head>
 <body>
@@ -162,12 +167,6 @@
             </div>
         </div>
         <div id="badges"></div>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <!-- <span class="input-group-text">With textarea</span> -->
-            </div>
-            <textarea class="form-control" id="addedExtension" aria-label="With textarea"></textarea>
-        </div>
     </div>
 
     
