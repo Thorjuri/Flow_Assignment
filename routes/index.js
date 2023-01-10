@@ -4,6 +4,6 @@ const fileRouter = require("./files.js");
 const userRouter = require("./users.js");
 
 router.use("/files", fileRouter);
-// router.use("/users", userRouter);
+router.use("/users", userRouter);
 
 module.exports = router;
